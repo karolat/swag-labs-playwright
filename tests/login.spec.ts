@@ -16,7 +16,7 @@ test.describe('Login', () => {
   for (const [userType, credentials] of Object.entries(USER_CREDENTIALS)) {
     const shouldSucceed = EXPECTED_LOGIN_SUCCESS[userType as keyof typeof USER_CREDENTIALS];
 
-    test(`login with ${userType}`, async ({ page }) => {
+    test(`should ${shouldSucceed ? '' : 'not'} be able to login with ${userType}`, async ({ page }) => {
       const loginPage = new LoginPage(page);
       await loginPage.goto();
       await loginPage.login(credentials);
