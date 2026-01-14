@@ -2,25 +2,31 @@ import { expect, test } from "@playwright/test";
 import { USER_CREDENTIALS } from "@/utils/constants"
 import { LoginPage } from "@/pages/login"
 
+const EXPECTED_LOGIN_SUCCESS: Record<keyof typeof USER_CREDENTIALS, boolean> = {
+  standard_user: true,
+  locked_out_user: false,
+  problem_user: true,
+  performance_glitch_user: true,
+  invalid_user: false,
+  error_user: true,
+  visual_user: true,
+};
 
 test.describe('Login', () => {
-  test('should be able to login with valid credentials', async ({ page }) => {
-    const loginPage  = new LoginPage(page);
-    await loginPage.goto();
+  for (const [userType, credentials] of Object.entries(USER_CREDENTIALS)) {
+    const shouldSucceed = EXPECTED_LOGIN_SUCCESS[userType as keyof typeof USER_CREDENTIALS];
 
-    expect(await loginPage.checkErrorVisibility()).toBe(false);
+    test(`login with ${userType}`, async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.goto();
+      await loginPage.login(credentials);
 
-    await loginPage.login(USER_CREDENTIALS.standard_user)
-
-  });
-
-  test('should not be able to login with invalid credentials', async ({ page }) => {
-    const loginPage  = new LoginPage(page);
-    await loginPage.goto();
-
-    await loginPage.login(USER_CREDENTIALS.invalid_user);
-
-    expect(await loginPage.checkErrorVisibility()).toBe(true);
-  });
+      if (shouldSucceed) {
+        expect(await loginPage.checkErrorVisibility()).toBe(false);
+      } else {
+        expect(await loginPage.checkErrorVisibility()).toBe(true);
+      }
+    });
+  }
 });
 
