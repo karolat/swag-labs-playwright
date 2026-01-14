@@ -1,0 +1,24 @@
+{
+  "name": "swag-labs-playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "Playwright test automation framework for Swag Labs demo site",
+  "author": "Adam Rynczak",
+  "license": "MIT",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:a11y": "playwright test --grep @a11y",
+    "report": "playwright show-report"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.53.0",
+    "@typescript-eslint/parser": "^8.53.0",
+    "tsconfig-paths": "^4.2.0"
+  }
+}
