@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { USER_CREDENTIALS } from "@/utils/constants"
-import { LoginPage } from "@/pages/login"
+import { LoginPage } from "@/pages"
 
 const EXPECTED_LOGIN_SUCCESS: Record<keyof typeof USER_CREDENTIALS, boolean> = {
   standard_user: true,

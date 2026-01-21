@@ -1,3 +1,8 @@
+export type UserCredentials = {
+  username: string;
+  password: string;
+};
+
 export const USER_CREDENTIALS = {
   standard_user: {
     username: "standard_user",
