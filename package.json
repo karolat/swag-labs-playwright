@@ -11,7 +11,8 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:a11y": "playwright test --grep @a11y",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
   },
   "type": "commonjs",
   "devDependencies": {
@@ -20,6 +21,7 @@
     "@types/node": "^25.0.3",
     "@typescript-eslint/eslint-plugin": "^8.53.0",
     "@typescript-eslint/parser": "^8.53.0",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
   }
 }
