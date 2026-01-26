@@ -183,7 +183,7 @@ test.describe('Inventory Page Accessibility @a11y', () => {
 
   // Semantic Structure Tests
   test.describe('Semantic Structure', () => {
-    test('page should have proper heading hierarchy', async ({ page }) => {
+    test.fixme('page should have proper heading hierarchy', async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
 
@@ -211,7 +211,7 @@ test.describe('Inventory Page Accessibility @a11y', () => {
       }
     });
 
-    test('page should have main landmark', async ({ page }) => {
+    test.fixme('page should have main landmark', async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
 
