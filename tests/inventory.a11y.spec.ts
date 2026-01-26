@@ -166,6 +166,10 @@ test.describe('Inventory Page Accessibility @a11y', () => {
       await inventoryPage.goto();
 
       const productImages = page.locator('.inventory_item img');
+
+      // Wait for images to be rendered before counting
+      await expect(productImages.first()).toBeVisible();
+
       const imageCount = await productImages.count();
 
       expect(imageCount).toBeGreaterThan(0);
