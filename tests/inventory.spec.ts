@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
 import { USER_CREDENTIALS } from '@/utils/constants';
 
-test.describe('Inventory', () => {
+test.describe('Inventory with normal user', () => {
   test('the logo text should be visible', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.goto();
@@ -11,6 +11,20 @@ test.describe('Inventory', () => {
     const logo = inventoryPage.mainHeader.logo;
 
     expect(await logo.textContent()).toBe('Swag Labs');
+  });
+
+  test.describe('Inventory Menu', () => {
+    test('the menu items should be correctly displayed', async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      await inventoryPage.goto();
+
+      await expect(inventoryPage.menuItems).toHaveText([
+        'All Items',
+        'About',
+        'Logout',
+        'Reset App State',
+      ]);
+    });
   });
 });
 
