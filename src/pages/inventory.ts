@@ -31,7 +31,7 @@ export class MainHeader {
     if (!(await this.isMenuOpen())) {
       return; // already closed, no need to do anything
     }
-    await this.root.getByRole('button', { name: 'Open Menu' }).click();
+    await this.root.getByRole('button', { name: 'Close Menu' }).click();
     await expect(this.menuWrap).toHaveAttribute('aria-hidden', 'true');
   }
 }
@@ -67,4 +67,6 @@ export class InventoryPage {
     await this.mainHeader.openMenu();
     await this.getMenuItem(name).click();
   }
+
+
 }
