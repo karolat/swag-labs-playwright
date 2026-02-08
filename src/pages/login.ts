@@ -6,7 +6,7 @@ export type LoginCredentials = {
 };
 
 export class LoginPage {
-  page: Page;
+  readonly page: Page;
   private readonly usernameInput: Locator;
   private readonly passwordInput: Locator;
   private readonly loginButton: Locator;

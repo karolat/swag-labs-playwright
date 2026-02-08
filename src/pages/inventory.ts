@@ -2,8 +2,8 @@ import { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 
 export class MainHeader {
-  root: Locator;
-  menuWrap: Locator;
+  private readonly root: Locator;
+  private readonly menuWrap: Locator;
 
   constructor(root: Locator) {
     this.root = root;
@@ -37,11 +37,11 @@ export class MainHeader {
 }
 
 export class InventoryPage {
-  page: Page;
-  mainHeader: MainHeader;
-  inventory: Locator;
-  footer: Locator;
-  menu: Locator;
+  readonly page: Page;
+  readonly mainHeader: MainHeader;
+  readonly inventory: Locator;
+  readonly footer: Locator;
+  private readonly menu: Locator;
 
   constructor(page: Page) {
     this.page = page;
