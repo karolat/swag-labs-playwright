@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
 import { USER_CREDENTIALS } from "@/utils/constants"
 import { LoginPage } from "@/pages"
 
@@ -22,9 +22,9 @@ test.describe('Login', () => {
       await loginPage.login(credentials);
 
       if (shouldSucceed) {
-        expect(await loginPage.checkErrorVisibility()).toBe(false);
+        await loginPage.expectNoError();
       } else {
-        expect(await loginPage.checkErrorVisibility()).toBe(true);
+        await loginPage.expectError();
       }
     });
   }

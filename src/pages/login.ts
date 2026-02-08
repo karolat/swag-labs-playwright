@@ -30,11 +30,14 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
-  async checkError(): Promise<string> {
-    return await this.errorMessage.textContent() || '';
+  async expectError(message?: string) {
+    await expect(this.errorMessage).toBeVisible();
+    if (message) {
+      await expect(this.errorMessage).toHaveText(message);
+    }
   }
 
-  async checkErrorVisibility() {
-    return await this.errorMessage.isVisible();
+  async expectNoError() {
+    await expect(this.errorMessage).not.toBeVisible();
   }
 }
