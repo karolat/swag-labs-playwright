@@ -12,7 +12,9 @@
     "test:debug": "playwright test --debug",
     "test:a11y": "playwright test --grep @a11y",
     "report": "playwright show-report",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --fix"
   },
   "type": "commonjs",
   "devDependencies": {
