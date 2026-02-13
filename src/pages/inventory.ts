@@ -43,18 +43,26 @@ export class InventoryPage {
   readonly mainHeader: MainHeader;
   readonly inventory: Locator;
   readonly footer: Locator;
+  private readonly cartLink: Locator;
   private readonly menu: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.mainHeader = new MainHeader(page.locator('.primary_header'));
-    this.inventory = page.locator('#inventory_container');
+    this.inventory = page.locator('[data-test="inventory-container"]');
     this.footer = page.locator('#footer_container');
+    this.cartLink = page.locator('[data-test="shopping-cart-link"]');
     this.menu = page.locator('.bm-menu');
   }
 
   async goto() {
     await this.page.goto('/inventory.html');
+    await this.expectLoaded();
+  }
+
+  async expectLoaded(): Promise<void> {
+    await expect(this.page).toHaveURL(/\/inventory\.html$/);
+    await expect(this.inventory).toBeVisible();
   }
 
   get menuItems(): Locator {
@@ -77,11 +85,15 @@ export class InventoryPage {
     await expect(productTitle).toHaveCount(1);
     await expect(productTitle).toHaveText(itemName);
     await productTitle.click();
-    return new ProductDetailsPage(this.page);
+    const productDetailsPage = new ProductDetailsPage(this.page);
+    await productDetailsPage.expectLoaded(itemName);
+    return productDetailsPage;
   }
 
   async openCart(): Promise<CartPage> {
-    await this.page.locator('[data-test="shopping-cart-link"]').click();
-    return new CartPage(this.page);
+    await this.cartLink.click();
+    const cartPage = new CartPage(this.page);
+    await cartPage.expectLoaded();
+    return cartPage;
   }
 }

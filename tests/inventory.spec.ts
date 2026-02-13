@@ -2,6 +2,7 @@ import { InventoryPage, type CheckoutCustomer } from '@/pages';
 import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
 import { USER_CREDENTIALS } from '@/utils/constants';
+import { CHECKOUT_EXPECTED_TOTALS } from '@/test-data/pricing';
 
 test.describe('Inventory with normal user', () => {
   test('the logo text should be visible', async ({ page }) => {
@@ -59,19 +60,26 @@ test.describe('Inventory with normal user', () => {
         lastName: 'Doe',
         postalCode: '12345',
       };
+      const expectedTotals = CHECKOUT_EXPECTED_TOTALS[itemName];
 
       const productDetailsPage = await inventoryPage.openItemByName(itemName);
       await productDetailsPage.addToCart();
 
-      const cartPage = await inventoryPage.openCart();
+      const cartPage = await productDetailsPage.openCart();
       const checkoutInfoPage = await cartPage.proceedToCheckout();
 
       await checkoutInfoPage.fillCustomerInfo(customer);
 
       const checkoutOverviewPage = await checkoutInfoPage.continue();
 
-      expect(await checkoutOverviewPage.getItemTotal()).toBeCloseTo(29.99, 2);
-      expect(await checkoutOverviewPage.getTotalWithTax()).toBeCloseTo(32.39, 2);
+      expect(await checkoutOverviewPage.getItemTotal()).toBeCloseTo(
+        expectedTotals.itemTotal,
+        2
+      );
+      expect(await checkoutOverviewPage.getTotalWithTax()).toBeCloseTo(
+        expectedTotals.totalWithTax,
+        2
+      );
 
       const checkoutCompletePage = await checkoutOverviewPage.finish();
       await checkoutCompletePage.expectSuccess();
