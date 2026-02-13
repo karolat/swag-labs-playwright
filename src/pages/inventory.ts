@@ -1,5 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
+import { CartPage } from './cart';
+import { ProductDetailsPage } from './product-details';
 
 export class MainHeader {
   private readonly root: Locator;
@@ -68,5 +70,18 @@ export class InventoryPage {
     await this.getMenuItem(name).click();
   }
 
+  async openItemByName(itemName: string): Promise<ProductDetailsPage> {
+    const productTitle = this.inventory
+      .locator('[data-test="inventory-item-name"]')
+      .filter({ hasText: itemName });
+    await expect(productTitle).toHaveCount(1);
+    await expect(productTitle).toHaveText(itemName);
+    await productTitle.click();
+    return new ProductDetailsPage(this.page);
+  }
 
+  async openCart(): Promise<CartPage> {
+    await this.page.locator('[data-test="shopping-cart-link"]').click();
+    return new CartPage(this.page);
+  }
 }

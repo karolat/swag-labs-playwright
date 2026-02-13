@@ -1,4 +1,4 @@
-import { InventoryPage } from '@/pages';
+import { InventoryPage, type CheckoutCustomer } from '@/pages';
 import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
 import { USER_CREDENTIALS } from '@/utils/constants';
@@ -53,34 +53,28 @@ test.describe('Inventory with normal user', () => {
     }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
+      const itemName = 'Sauce Labs Backpack';
+      const customer: CheckoutCustomer = {
+        firstName: 'John',
+        lastName: 'Doe',
+        postalCode: '12345',
+      };
 
-      // click on an item
+      const productDetailsPage = await inventoryPage.openItemByName(itemName);
+      await productDetailsPage.addToCart();
 
-      // pause here so i can debug
+      const cartPage = await inventoryPage.openCart();
+      const checkoutInfoPage = await cartPage.proceedToCheckout();
 
-      await page.locator('[data-test="item-4-title-link"]').click()
+      await checkoutInfoPage.fillCustomerInfo(customer);
 
-      // add the item to cart
+      const checkoutOverviewPage = await checkoutInfoPage.continue();
 
-      await page.locator('[data-test="add-to-cart"]').click();
+      expect(await checkoutOverviewPage.getItemTotal()).toBeCloseTo(29.99, 2);
+      expect(await checkoutOverviewPage.getTotalWithTax()).toBeCloseTo(32.39, 2);
 
-      // click on the cart icon
-      await page.locator('[data-test="shopping-cart-link"]').click();
-      // click checkout
-      await page.locator('[data-test="checkout"]').click();
-
-      // enter first/last/zip
-      await page.locator('[data-test="firstName"]').fill('John');
-      await page.locator('[data-test="lastName"]').fill('Doe');
-      await page.locator('[data-test="postalCode"]').fill('12345');
-      // continue
-
-      await page.locator('[data-test="continue"]').click();
-      // click finish
-      await page.locator('[data-test="finish"]').click();
-      // verify price = 29.99 for item, 32.39 with tax
-
-      await page.pause();
+      const checkoutCompletePage = await checkoutOverviewPage.finish();
+      await checkoutCompletePage.expectSuccess();
     });
   });
 });
