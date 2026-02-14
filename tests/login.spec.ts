@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { USER_CREDENTIALS } from "@/utils/constants"
+import { USER_CREDENTIALS } from "@/test-data/users"
 import { LoginPage } from "@/pages"
 
 const EXPECTED_LOGIN_SUCCESS: Record<keyof typeof USER_CREDENTIALS, boolean> = {
@@ -29,4 +29,3 @@ test.describe('Login', () => {
     });
   }
 });
-

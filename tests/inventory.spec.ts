@@ -1,7 +1,7 @@
 import { InventoryPage, type CheckoutCustomer } from '@/pages';
 import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
-import { USER_CREDENTIALS } from '@/utils/constants';
+import { USER_CREDENTIALS } from '@/test-data/users';
 import { CHECKOUT_EXPECTED_TOTALS } from '@/test-data/pricing';
 
 test.describe('Inventory with normal user', () => {
