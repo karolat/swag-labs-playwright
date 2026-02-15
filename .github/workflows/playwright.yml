@@ -30,6 +30,9 @@ jobs:
     - name: Install Playwright Browsers and system dependencies (cache miss)
       if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
       run: bunx playwright install --with-deps
+    - name: Install Playwright system dependencies (cache hit)
+      if: ${{ steps.playwright-cache.outputs.cache-hit == 'true' }}
+      run: bunx playwright install-deps
     - name: Install Playwright Browsers (cache hit)
       if: ${{ steps.playwright-cache.outputs.cache-hit == 'true' }}
       run: bunx playwright install
