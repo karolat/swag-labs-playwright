@@ -10,6 +10,8 @@ jobs:
       report_ready: ${{ steps.report_check.outputs.report_ready }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      HOME: /root
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-noble
       options: --ipc=host
