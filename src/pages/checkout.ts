@@ -36,6 +36,10 @@ export class CheckoutInfoPage {
     await this.postalCodeInput.fill(customer.postalCode);
   }
 
+  async getLastNameValue(): Promise<string> {
+    return this.lastNameInput.inputValue();
+  }
+
   async continue(): Promise<CheckoutOverviewPage> {
     await this.continueButton.click();
     const checkoutOverviewPage = new CheckoutOverviewPage(this.page);
