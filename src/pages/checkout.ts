@@ -14,6 +14,7 @@ export class CheckoutInfoPage {
   private readonly lastNameInput: Locator;
   private readonly postalCodeInput: Locator;
   private readonly continueButton: Locator;
+  private readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -22,6 +23,7 @@ export class CheckoutInfoPage {
     this.lastNameInput = page.locator('[data-test="lastName"]');
     this.postalCodeInput = page.locator('[data-test="postalCode"]');
     this.continueButton = page.locator('[data-test="continue"]');
+    this.errorMessage = page.locator('[data-test="error"]');
   }
 
   async expectLoaded(): Promise<void> {
@@ -36,11 +38,22 @@ export class CheckoutInfoPage {
     await this.postalCodeInput.fill(customer.postalCode);
   }
 
+  async clickContinue(): Promise<void> {
+    await this.continueButton.click();
+  }
+
   async continue(): Promise<CheckoutOverviewPage> {
     await this.continueButton.click();
     const checkoutOverviewPage = new CheckoutOverviewPage(this.page);
     await checkoutOverviewPage.expectLoaded();
     return checkoutOverviewPage;
+  }
+
+  async expectError(message?: string): Promise<void> {
+    await expect(this.errorMessage).toBeVisible();
+    if (message) {
+      await expect(this.errorMessage).toHaveText(message);
+    }
   }
 }
 
