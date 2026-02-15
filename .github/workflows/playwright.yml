@@ -6,6 +6,8 @@ on:
     branches: [ main, master ]
 jobs:
   test:
+    outputs:
+      report_ready: ${{ steps.report_check.outputs.report_ready }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -21,9 +23,55 @@ jobs:
       run: bunx playwright install --with-deps
     - name: Run Playwright tests
       run: bun run test
+    - name: Check Playwright report availability
+      id: report_check
+      if: ${{ always() && !cancelled() }}
+      run: |
+        if [ -f playwright-report/index.html ]; then
+          echo "report_ready=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "report_ready=false" >> "$GITHUB_OUTPUT"
+        fi
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    - name: Upload GitHub Pages artifact
+      if: ${{ !cancelled() && steps.report_check.outputs.report_ready == 'true' }}
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: playwright-report/
+
+  deploy-pages:
+    needs: test
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    if: >-
+      ${{
+        always() &&
+        github.event_name == 'push' &&
+        (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
+        needs.test.result != 'cancelled' &&
+        needs.test.outputs.report_ready == 'true'
+      }}
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+    - name: Add report link to job summary
+      run: |
+        {
+          echo "### Playwright Report"
+          echo ""
+          echo "- [Open latest Playwright report](${{ steps.deployment.outputs.page_url }})"
+        } >> "$GITHUB_STEP_SUMMARY"
