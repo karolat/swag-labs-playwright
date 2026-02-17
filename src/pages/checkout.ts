@@ -1,11 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { type CheckoutCustomer } from '@/test-data/checkout';
 import { parseCurrencyFromLabel } from '@/utils/money';
-
-export type CheckoutCustomer = {
-  firstName: string;
-  lastName: string;
-  postalCode: string;
-};
 
 export class CheckoutInfoPage {
   readonly page: Page;

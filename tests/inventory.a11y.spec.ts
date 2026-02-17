@@ -27,9 +27,7 @@ test.describe('Inventory Page Accessibility @a11y', () => {
       await inventoryPage.goto();
 
       // Focus on an add to cart button
-      const addToCartButton = page
-        .locator('button[data-test^="add-to-cart"]')
-        .first();
+      const addToCartButton = inventoryPage.addToCartButtons.first();
       await addToCartButton.focus();
 
       // Check that the button is actually focused
@@ -64,7 +62,7 @@ test.describe('Inventory Page Accessibility @a11y', () => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
 
-      const productImages = page.locator('.inventory_item img');
+      const productImages = inventoryPage.productImages;
 
       // Wait for images to be rendered before counting
       await expect(productImages.first()).toBeVisible();

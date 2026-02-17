@@ -31,6 +31,14 @@ export class InventoryPage {
     await expect(this.inventory).toBeVisible();
   }
 
+  get addToCartButtons(): Locator {
+    return this.inventory.locator('button[data-test^="add-to-cart"]');
+  }
+
+  get productImages(): Locator {
+    return this.inventory.locator('.inventory_item img');
+  }
+
   get menuItems(): Locator {
     return this.menu.locator('a');
   }

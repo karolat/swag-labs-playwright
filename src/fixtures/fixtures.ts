@@ -1,5 +1,5 @@
 import { test as baseTest } from '@playwright/test';
-import { USER_CREDENTIALS, type UserCredentials } from '@/test-data/users';
+import { USER_CREDENTIALS, type UserCredentials } from '@/test-data';
 import { LoginPage } from '@/pages';
 import fs from 'fs';
 import path from 'path';

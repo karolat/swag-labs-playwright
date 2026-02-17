@@ -1,8 +1,11 @@
-import { InventoryPage, type CheckoutCustomer } from '@/pages';
+import { InventoryPage } from '@/pages';
 import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
-import { USER_CREDENTIALS } from '@/test-data/users';
-import { CHECKOUT_EXPECTED_TOTALS } from '@/test-data/pricing';
+import {
+  CHECKOUT_EXPECTED_TOTALS,
+  type CheckoutCustomer,
+  USER_CREDENTIALS,
+} from '@/test-data';
 
 test.describe('Inventory with normal user', () => {
   test('the logo text should be visible', async ({ page }) => {

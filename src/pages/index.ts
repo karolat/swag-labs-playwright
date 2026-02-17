@@ -7,5 +7,4 @@ export {
   CheckoutInfoPage,
   CheckoutOverviewPage,
   CheckoutCompletePage,
-  type CheckoutCustomer,
 } from './checkout';
