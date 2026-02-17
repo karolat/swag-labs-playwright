@@ -11,13 +11,15 @@ export class LoginPage {
   private readonly passwordInput: Locator;
   private readonly loginButton: Locator;
   private readonly errorMessage: Locator;
+  private readonly errorCloseButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.usernameInput = this.page.locator('[data-test="username"]');
     this.passwordInput = this.page.locator('[data-test="password"]');
     this.loginButton = this.page.locator('[data-test="login-button"]');
-    this.errorMessage = this.page.locator('h3[data-test="error"]')
+    this.errorMessage = this.page.locator('h3[data-test="error"]');
+    this.errorCloseButton = this.page.locator('[data-test="error-button"]');
   }
 
   async goto() {
@@ -38,6 +40,15 @@ export class LoginPage {
   }
 
   async expectNoError() {
+    await expect(this.errorMessage).not.toBeVisible();
+  }
+
+  async expectLoaded() {
+    await expect(this.loginButton).toBeVisible();
+  }
+
+  async dismissError() {
+    await this.errorCloseButton.click();
     await expect(this.errorMessage).not.toBeVisible();
   }
 }
