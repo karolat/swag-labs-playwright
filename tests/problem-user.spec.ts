@@ -6,6 +6,7 @@ import { CHECKOUT_CUSTOMER } from '@/test-data/checkout';
 
 test.describe('Regression: problem_user known defects', () => {
   test.use({ authUser: USER_CREDENTIALS.problem_user });
+  test.fail();
 
   test('product images should be unique per item', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
