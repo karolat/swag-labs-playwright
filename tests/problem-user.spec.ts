@@ -4,6 +4,19 @@ import { test } from '@/fixtures';
 import { USER_CREDENTIALS } from '@/test-data/users';
 import { CHECKOUT_CUSTOMER } from '@/test-data/checkout';
 
+test.describe('problem_user', () => {
+  test.use({ authUser: USER_CREDENTIALS.problem_user });
+
+  test('the logo text should be visible', async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    await inventoryPage.goto();
+
+    const logo = inventoryPage.mainHeader.logo;
+
+    expect(await logo.textContent()).toBe('Swag Labs');
+  });
+});
+
 test.describe('Regression: problem_user known defects', () => {
   test.use({ authUser: USER_CREDENTIALS.problem_user });
   test.fail();
