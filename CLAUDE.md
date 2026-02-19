@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Run all tests
-bun test
+bun run test
 
 # Run tests in headed mode (visible browser)
 bun run test:headed

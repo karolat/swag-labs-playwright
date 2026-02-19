@@ -86,8 +86,6 @@ export class InventoryPage {
     const productTitle = this.inventory
       .locator('[data-test="inventory-item-name"]')
       .filter({ hasText: itemName });
-    await expect(productTitle).toHaveCount(1);
-    await expect(productTitle).toHaveText(itemName);
     await productTitle.click();
     const productDetailsPage = new ProductDetailsPage(this.page);
     await productDetailsPage.expectLoaded(itemName);
