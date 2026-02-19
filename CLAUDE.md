@@ -28,6 +28,9 @@ bunx playwright test -g "should be able to login"
 
 # View test report
 bun run report
+
+# Run linter
+bun lint
 ```
 
 ## Architecture

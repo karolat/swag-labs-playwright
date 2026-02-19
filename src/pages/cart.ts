@@ -3,17 +3,19 @@ import { CheckoutInfoPage } from './checkout';
 
 export class CartPage {
   readonly page: Page;
-  private readonly title: Locator;
-  private readonly cartItems: Locator;
-  private readonly checkoutButton: Locator;
   readonly cartItems: Locator;
+  readonly cartBadge: Locator;
+  private readonly title: Locator;
+  private readonly checkoutButton: Locator;
+  private readonly continueShoppingButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.title = page.locator('[data-test="title"]');
     this.cartItems = page.locator('[data-test="inventory-item"]');
+    this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
     this.checkoutButton = page.locator('[data-test="checkout"]');
-    this.cartItems = page.locator('[data-test="inventory-item"]');
+    this.continueShoppingButton = page.locator('[data-test="continue-shopping"]');
   }
 
   getItemByName(itemName: string): Locator {
@@ -41,5 +43,9 @@ export class CartPage {
 
   async expectEmpty(): Promise<void> {
     await expect(this.cartItems).toHaveCount(0);
+  }
+
+  async clickContinueShopping(): Promise<void> {
+    await this.continueShoppingButton.click();
   }
 }

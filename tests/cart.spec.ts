@@ -45,8 +45,7 @@ test.describe('Cart', () => {
     ).not.toBeVisible();
 
     // Badge should now show "1"
-    const badge = page.locator('[data-test="shopping-cart-badge"]');
-    await expect(badge).toHaveText('1');
+    await expect(cartPage.cartBadge).toHaveText('1');
   });
 
   test('should persist cart across page navigation', async ({ page }) => {
@@ -61,7 +60,7 @@ test.describe('Cart', () => {
     await expect(cartPage.cartItems).toHaveCount(1);
 
     // Navigate back to inventory via "Continue Shopping"
-    await page.locator('[data-test="continue-shopping"]').click();
+    await cartPage.clickContinueShopping();
     await inventoryPage.expectLoaded();
 
     // Cart badge should still show "1"
