@@ -41,10 +41,25 @@ jobs:
         path: playwright-report/
         retention-days: 30
     - name: Upload GitHub Pages artifact
-      if: ${{ !cancelled() && steps.report_check.outputs.report_ready == 'true' }}
+      if: >-
+        ${{
+          !cancelled() &&
+          github.event_name == 'push' &&
+          (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
+          steps.report_check.outputs.report_ready == 'true'
+        }}
       uses: actions/upload-pages-artifact@v3
       with:
         path: playwright-report/
+    - name: Add PR report link to job summary
+      if: ${{ !cancelled() && github.event_name == 'pull_request' && steps.report_check.outputs.report_ready == 'true' }}
+      run: |
+        {
+          echo "### Playwright Report Artifact"
+          echo ""
+          echo "This PR run does not publish to GitHub Pages."
+          echo "Download the \`playwright-report\` artifact from the [workflow run artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})."
+        } >> "$GITHUB_STEP_SUMMARY"
 
   deploy-pages:
     needs: test
@@ -55,16 +70,8 @@ jobs:
     if: >-
       ${{
         always() &&
-        (
-          (
-            github.event_name == 'push' &&
-            (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-          ) ||
-          (
-            github.event_name == 'pull_request' &&
-            github.event.pull_request.head.repo.full_name == github.repository
-          )
-        ) &&
+        github.event_name == 'push' &&
+        (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
         needs.test.result != 'cancelled' &&
         needs.test.outputs.report_ready == 'true'
       }}
