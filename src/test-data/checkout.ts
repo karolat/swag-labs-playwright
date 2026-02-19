@@ -35,4 +35,9 @@ export const CHECKOUT_VALIDATION_CASES: Array<{
     },
     expectedError: 'Error: Postal Code is required',
   },
+  {
+    name: 'all fields are empty',
+    customer: {},
+    expectedError: 'Error: First Name is required',
+  },
 ];
