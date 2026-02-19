@@ -23,14 +23,6 @@ export default defineConfig({
   workers: process.env.CI ? '50%' : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
-  expect: {
-    toHaveScreenshot: {
-      animations: 'disabled',
-      caret: 'hide',
-      scale: 'css',
-      maxDiffPixelRatio: 0.001,
-    },
-  },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -62,6 +54,14 @@ export default defineConfig({
     {
       name: 'visual-chromium',
       testMatch: /.*\.visual\.spec\.ts/,
+      expect: {
+        toHaveScreenshot: {
+          animations: 'disabled',
+          caret: 'hide',
+          scale: 'css',
+          maxDiffPixelRatio: 0.001,
+        },
+      },
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 720 },
