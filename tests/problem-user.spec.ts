@@ -1,7 +1,8 @@
-import { InventoryPage, type CheckoutCustomer } from '@/pages';
+import { InventoryPage } from '@/pages';
 import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
 import { USER_CREDENTIALS } from '@/test-data/users';
+import { CHECKOUT_CUSTOMER } from '@/test-data/checkout';
 
 test.describe('Regression: problem_user known defects', () => {
   test.use({ authUser: USER_CREDENTIALS.problem_user });
@@ -46,17 +47,12 @@ test.describe('Regression: problem_user known defects', () => {
     const cartPage = await inventoryPage.openCart();
     const checkoutInfoPage = await cartPage.proceedToCheckout();
 
-    const customer: CheckoutCustomer = {
-      firstName: 'Jane',
-      lastName: 'Doe',
-      postalCode: '90210',
-    };
-    await checkoutInfoPage.fillCustomerInfo(customer);
+    await checkoutInfoPage.fillCustomerInfo(CHECKOUT_CUSTOMER);
 
     const lastNameValue = await checkoutInfoPage.getLastNameValue();
     expect(
       lastNameValue,
       'Last name field did not retain the entered value — input is broken for problem_user'
-    ).toBe(customer.lastName);
+    ).toBe(CHECKOUT_CUSTOMER.lastName);
   });
 });
