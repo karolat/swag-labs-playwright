@@ -44,7 +44,9 @@ export class InventoryPage {
   readonly inventory: Locator;
   readonly footer: Locator;
   private readonly cartLink: Locator;
+  private readonly cartBadge: Locator;
   private readonly menu: Locator;
+  private readonly sortDropdown: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -52,7 +54,9 @@ export class InventoryPage {
     this.inventory = page.locator('[data-test="inventory-container"]');
     this.footer = page.locator('#footer_container');
     this.cartLink = page.locator('[data-test="shopping-cart-link"]');
+    this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
     this.menu = page.locator('.bm-menu');
+    this.sortDropdown = page.locator('[data-test="product-sort-container"]');
   }
 
   async goto() {
@@ -93,5 +97,52 @@ export class InventoryPage {
     const cartPage = new CartPage(this.page);
     await cartPage.expectLoaded();
     return cartPage;
+  }
+
+  async addItemToCart(itemName: string): Promise<void> {
+    const item = this.inventory
+      .locator('[data-test="inventory-item"]')
+      .filter({ hasText: itemName });
+    await item.locator('button', { hasText: 'Add to cart' }).click();
+  }
+
+  async removeItem(itemName: string): Promise<void> {
+    const item = this.inventory
+      .locator('[data-test="inventory-item"]')
+      .filter({ hasText: itemName });
+    await item.locator('button', { hasText: 'Remove' }).click();
+  }
+
+  async expectCartBadge(count: string): Promise<void> {
+    await expect(this.cartBadge).toHaveText(count);
+  }
+
+  async expectNoCartBadge(): Promise<void> {
+    await expect(this.cartBadge).not.toBeVisible();
+  }
+
+  async sortBy(option: string): Promise<void> {
+    await this.sortDropdown.selectOption({ label: option });
+  }
+
+  async getItemNames(): Promise<string[]> {
+    return this.inventory
+      .locator('[data-test="inventory-item-name"]')
+      .allTextContents();
+  }
+
+  async getItemPrices(): Promise<number[]> {
+    const priceTexts = await this.inventory
+      .locator('[data-test="inventory-item-price"]')
+      .allTextContents();
+    return priceTexts.map((text) => parseFloat(text.replace('$', '')));
+  }
+
+  async getItemImageSrcs(): Promise<string[]> {
+    return this.inventory
+      .locator('img.inventory_item_img')
+      .evaluateAll((imgs) =>
+        (imgs as HTMLImageElement[]).map((img) => img.src)
+      );
   }
 }

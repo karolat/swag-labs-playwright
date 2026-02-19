@@ -3,15 +3,29 @@ import { CheckoutInfoPage } from './checkout';
 
 export class CartPage {
   readonly page: Page;
+  readonly cartItems: Locator;
+  readonly cartBadge: Locator;
   private readonly title: Locator;
-  private readonly cartItems: Locator;
   private readonly checkoutButton: Locator;
+  private readonly continueShoppingButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.title = page.locator('[data-test="title"]');
     this.cartItems = page.locator('[data-test="inventory-item"]');
+    this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
     this.checkoutButton = page.locator('[data-test="checkout"]');
+    this.continueShoppingButton = page.locator('[data-test="continue-shopping"]');
+  }
+
+  getItemByName(itemName: string): Locator {
+    return this.cartItems.filter({
+      has: this.page.locator('[data-test="inventory-item-name"]', { hasText: itemName }),
+    });
+  }
+
+  async removeItem(itemName: string): Promise<void> {
+    await this.getItemByName(itemName).getByRole('button', { name: 'Remove' }).click();
   }
 
   async expectLoaded(): Promise<void> {
@@ -29,5 +43,9 @@ export class CartPage {
 
   async expectEmpty(): Promise<void> {
     await expect(this.cartItems).toHaveCount(0);
+  }
+
+  async clickContinueShopping(): Promise<void> {
+    await this.continueShoppingButton.click();
   }
 }

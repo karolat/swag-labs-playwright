@@ -53,6 +53,10 @@ export class CheckoutInfoPage {
     await this.continueButton.click();
   }
 
+  async getLastNameValue(): Promise<string> {
+    return this.lastNameInput.inputValue();
+  }
+
   async continue(): Promise<CheckoutOverviewPage> {
     await this.clickContinue();
     const checkoutOverviewPage = new CheckoutOverviewPage(this.page);

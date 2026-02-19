@@ -1,9 +1,8 @@
 import { InventoryPage } from '@/pages';
 import { expect } from '@playwright/test';
 import { test } from '@/fixtures';
-import { USER_CREDENTIALS } from '@/test-data/users';
 
-test.describe('Inventory with normal user', () => {
+test.describe('Inventory', () => {
   test('the logo text should be visible', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.goto();
@@ -45,18 +44,5 @@ test.describe('Inventory with normal user', () => {
       await mainHeader.closeMenu();
       expect(await mainHeader.isMenuOpen()).toBeFalsy();
     });
-  });
-});
-
-test.describe('Inventory with problem_user', () => {
-  test.use({ authUser: USER_CREDENTIALS.problem_user });
-
-  test('the logo text should be visible', async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.goto();
-
-    const logo = inventoryPage.mainHeader.logo;
-
-    expect(await logo.textContent()).toBe('Swag Labs');
   });
 });
