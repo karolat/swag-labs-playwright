@@ -2,6 +2,7 @@ import { expect, test as base } from '@playwright/test';
 import { test as authTest } from '@/fixtures';
 import { CHECKOUT_CUSTOMER } from '@/test-data/checkout';
 import { InventoryPage, LoginPage } from '@/pages';
+import { expectStableScreenshot } from '@/utils/visual';
 
 const BACKPACK_ITEM_NAME = 'Sauce Labs Backpack';
 const LINUX_ONLY_REASON =
@@ -16,7 +17,7 @@ base.describe('Visual regression: public critical pages', () => {
 
     const loginShell = page.locator('#root');
     await expect(loginShell).toBeVisible();
-    await expect(loginShell).toHaveScreenshot('login-page-shell.png');
+    await expectStableScreenshot(loginShell, 'login-page-shell.png');
   });
 });
 
@@ -29,18 +30,18 @@ authTest.describe('Visual regression: authenticated critical pages', () => {
 
     const inventoryShell = page.locator('#contents_wrapper');
     await expect(inventoryShell).toBeVisible();
-    await expect(inventoryShell).toHaveScreenshot('inventory-page.png');
+    await expectStableScreenshot(inventoryShell, 'inventory-page.png');
   });
 
   authTest('cart page with one item', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.goto();
     await inventoryPage.addItemToCart(BACKPACK_ITEM_NAME);
-    const cartPage = await inventoryPage.openCart();
+    await inventoryPage.openCart();
 
     const cartShell = page.locator('#contents_wrapper');
     await expect(cartShell).toBeVisible();
-    await expect(cartShell).toHaveScreenshot('cart-page-one-item.png');
+    await expectStableScreenshot(cartShell, 'cart-page-one-item.png');
   });
 
   authTest('checkout overview page with one item', async ({ page }) => {
@@ -55,7 +56,8 @@ authTest.describe('Visual regression: authenticated critical pages', () => {
 
     const checkoutOverviewShell = page.locator('#contents_wrapper');
     await expect(checkoutOverviewShell).toBeVisible();
-    await expect(checkoutOverviewShell).toHaveScreenshot(
+    await expectStableScreenshot(
+      checkoutOverviewShell,
       'checkout-overview-one-item.png',
     );
   });
