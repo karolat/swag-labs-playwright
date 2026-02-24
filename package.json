@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "test": "playwright test --project=chromium --project=firefox --project=webkit",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui",
-    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --project=chromium --project=firefox --project=webkit --headed",
+    "test:ui": "playwright test --project=chromium --project=firefox --project=webkit --ui",
+    "test:debug": "playwright test --project=chromium --project=firefox --project=webkit --debug",
     "test:visual": "playwright test --project=visual-chromium",
     "test:visual:update": "node scripts/run-visual-update.cjs",
     "test:visual:update:linux": "bash scripts/update-visual-baselines.sh",

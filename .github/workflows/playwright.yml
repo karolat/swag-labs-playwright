@@ -85,6 +85,14 @@ jobs:
           name: playwright-report-visual
           path: playwright-report/
           retention-days: 30
+      - name: Add PR report link to job summary
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && steps.report_check.outputs.report_ready == 'true' }}
+        run: |
+          {
+            echo "### Playwright Report Artifact (Visual)"
+            echo ""
+            echo "Download the \`playwright-report-visual\` artifact from the [workflow run artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})."
+          } >> "$GITHUB_STEP_SUMMARY"
 
   deploy-pages:
     needs: core-tests
