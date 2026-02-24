@@ -22,7 +22,7 @@ npm run test:visual
 # Update visual snapshots (Linux only; fails on macOS/Windows)
 npm run test:visual:update
 
-# Update visual snapshots using Linux container (authoritative baselines)
+# Update visual snapshots using Linux container (authoritative baselines).  This requires Docker.
 npm run test:visual:update:linux
 ```
 

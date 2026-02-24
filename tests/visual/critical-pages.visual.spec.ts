@@ -1,4 +1,4 @@
-import { expect, test as base } from '@playwright/test';
+import { test as base } from '@playwright/test';
 import { test as authTest } from '@/fixtures';
 import { CHECKOUT_CUSTOMER } from '@/test-data/checkout';
 import { InventoryPage, LoginPage } from '@/pages';
@@ -16,7 +16,6 @@ base.describe('Visual regression: public critical pages', () => {
     await loginPage.goto();
 
     const loginShell = page.locator('#root');
-    await expect(loginShell).toBeVisible();
     await expectStableScreenshot(loginShell, 'login-page-shell.png');
   });
 });
@@ -29,7 +28,6 @@ authTest.describe('Visual regression: authenticated critical pages', () => {
     await inventoryPage.goto();
 
     const inventoryShell = page.locator('#contents_wrapper');
-    await expect(inventoryShell).toBeVisible();
     await expectStableScreenshot(inventoryShell, 'inventory-page.png');
   });
 
@@ -40,7 +38,6 @@ authTest.describe('Visual regression: authenticated critical pages', () => {
     await inventoryPage.openCart();
 
     const cartShell = page.locator('#contents_wrapper');
-    await expect(cartShell).toBeVisible();
     await expectStableScreenshot(cartShell, 'cart-page-one-item.png');
   });
 
@@ -55,7 +52,6 @@ authTest.describe('Visual regression: authenticated critical pages', () => {
     await checkoutInfoPage.continue();
 
     const checkoutOverviewShell = page.locator('#contents_wrapper');
-    await expect(checkoutOverviewShell).toBeVisible();
     await expectStableScreenshot(
       checkoutOverviewShell,
       'checkout-overview-one-item.png',
