@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.57.0-noble
+      image: mcr.microsoft.com/playwright:v1.57.0-noble  # keep in sync with @playwright/test in package.json
       options: --ipc=host --user pwuser
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.57.0-noble
+      image: mcr.microsoft.com/playwright:v1.57.0-noble  # keep in sync with @playwright/test in package.json
       options: --ipc=host --user pwuser
     steps:
       - uses: actions/checkout@v4

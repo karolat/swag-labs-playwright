@@ -9,6 +9,10 @@ if (process.platform !== 'linux') {
   process.exit(1);
 }
 
-execSync('playwright test --project=visual-chromium --update-snapshots', {
-  stdio: 'inherit',
-});
+try {
+  execSync('playwright test --project=visual-chromium --update-snapshots', {
+    stdio: 'inherit',
+  });
+} catch {
+  process.exit(1);
+}
