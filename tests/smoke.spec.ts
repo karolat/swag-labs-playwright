@@ -4,7 +4,7 @@ import { LoginPage, InventoryPage } from '@/pages';
 import { USER_CREDENTIALS } from '@/test-data/users';
 import { CHECKOUT_CUSTOMER } from '@/test-data/checkout';
 
-baseTest.describe('Smoke @smoke', () => {
+baseTest.describe('Smoke', { tag: '@smoke' }, () => {
   baseTest('login page should load', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle('Swag Labs');
@@ -20,13 +20,13 @@ baseTest.describe('Smoke @smoke', () => {
   });
 });
 
-test.describe('Smoke (authenticated) @smoke', () => {
+test.describe('Smoke (authenticated)', { tag: '@smoke' }, () => {
   test('inventory should display products', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.goto();
 
     const items = inventoryPage.inventory.locator('[data-test="inventory-item"]');
-    await expect(items).not.toHaveCount(0);
+    await expect(items).toHaveCount(6);
   });
 
   test('should complete a purchase end-to-end', async ({ page }) => {
