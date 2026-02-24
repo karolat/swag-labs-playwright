@@ -5,8 +5,17 @@ This file provides guidance to AI coding agents working in this directory.
 ## Commands
 
 ```bash
-# Run all tests
+# Run core cross-browser tests (no visual regression)
 bun run test
+
+# Run visual regression tests
+bun run test:visual
+
+# Update visual baselines (Linux only)
+bun run test:visual:update
+
+# Update visual baselines using Linux container
+bun run test:visual:update:linux
 
 # Run tests in headed mode (visible browser)
 bun run test:headed
