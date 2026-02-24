@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { InventoryPage } from '@/pages';
 import { expectNoViolations } from '@/utils/a11y';
 
-test.describe('Inventory Page Accessibility @a11y', () => {
+test.describe('Inventory Page Accessibility', { tag: '@a11y' }, () => {
   // WCAG Compliance Tests
   test.describe('WCAG Compliance', () => {
     test('full page should have no accessibility violations', async ({

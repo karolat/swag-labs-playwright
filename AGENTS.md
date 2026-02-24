@@ -71,7 +71,7 @@ The project uses axe-core via `@axe-core/playwright` for WCAG 2.1 AA compliance 
 - `expectNoViolations(page, options)`: Assert no a11y violations, with optional baseline for known issues
 - `runAccessibilityScan(page, options)`: Run scan and return raw results
 
-Tag accessibility tests with `@a11y` in the describe block name.
+Tag accessibility tests with Playwright's tag annotation: `{ tag: '@a11y' }` on the describe block.
 
 ### User Credentials
 Available test users are defined in `src/test-data/users.ts`. The `USER_CREDENTIALS` object contains all valid logins for the Swag Labs demo site.
