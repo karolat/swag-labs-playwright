@@ -1,7 +1,6 @@
-import { Locator, Page } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { CartPage } from './cart';
-import { ProductDetailsPage } from './product-details';
+import { expect, Locator, Page } from "@playwright/test";
+import { CartPage } from "./cart";
+import { ProductDetailsPage } from "./product-details";
 
 export class MainHeader {
   private readonly root: Locator;
@@ -9,32 +8,32 @@ export class MainHeader {
 
   constructor(root: Locator) {
     this.root = root;
-    this.menuWrap = root.locator('.bm-menu-wrap');
+    this.menuWrap = root.locator(".bm-menu-wrap");
   }
 
   get logo() {
-    return this.root.locator('.app_logo');
+    return this.root.locator(".app_logo");
   }
 
   async isMenuOpen(): Promise<boolean> {
-    const ariaHidden = await this.menuWrap.getAttribute('aria-hidden');
-    return ariaHidden === 'false';
+    const ariaHidden = await this.menuWrap.getAttribute("aria-hidden");
+    return ariaHidden === "false";
   }
 
   async openMenu() {
     if (await this.isMenuOpen()) {
       return; // already open, no need to do anything
     }
-    await this.root.getByRole('button', { name: 'Open Menu' }).click();
-    await expect(this.menuWrap).toHaveAttribute('aria-hidden', 'false');
+    await this.root.getByRole("button", { name: "Open Menu" }).click();
+    await expect(this.menuWrap).toHaveAttribute("aria-hidden", "false");
   }
 
   async closeMenu() {
     if (!(await this.isMenuOpen())) {
       return; // already closed, no need to do anything
     }
-    await this.root.getByRole('button', { name: 'Close Menu' }).click();
-    await expect(this.menuWrap).toHaveAttribute('aria-hidden', 'true');
+    await this.root.getByRole("button", { name: "Close Menu" }).click();
+    await expect(this.menuWrap).toHaveAttribute("aria-hidden", "true");
   }
 }
 
@@ -50,17 +49,17 @@ export class InventoryPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.mainHeader = new MainHeader(page.locator('.primary_header'));
+    this.mainHeader = new MainHeader(page.locator(".primary_header"));
     this.inventory = page.locator('[data-test="inventory-container"]');
-    this.footer = page.locator('#footer_container');
+    this.footer = page.locator("#footer_container");
     this.cartLink = page.locator('[data-test="shopping-cart-link"]');
     this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
-    this.menu = page.locator('.bm-menu');
+    this.menu = page.locator(".bm-menu");
     this.sortDropdown = page.locator('[data-test="product-sort-container"]');
   }
 
   async goto() {
-    await this.page.goto('/inventory.html');
+    await this.page.goto("/inventory.html");
     await this.expectLoaded();
   }
 
@@ -70,7 +69,7 @@ export class InventoryPage {
   }
 
   get menuItems(): Locator {
-    return this.menu.locator('a');
+    return this.menu.locator("a");
   }
 
   getMenuItem(name: string): Locator {
@@ -103,14 +102,14 @@ export class InventoryPage {
     const item = this.inventory
       .locator('[data-test="inventory-item"]')
       .filter({ hasText: itemName });
-    await item.locator('button', { hasText: 'Add to cart' }).click();
+    await item.locator("button", { hasText: "Add to cart" }).click();
   }
 
   async removeItem(itemName: string): Promise<void> {
     const item = this.inventory
       .locator('[data-test="inventory-item"]')
       .filter({ hasText: itemName });
-    await item.locator('button', { hasText: 'Remove' }).click();
+    await item.locator("button", { hasText: "Remove" }).click();
   }
 
   async expectCartBadge(count: string): Promise<void> {
@@ -135,14 +134,14 @@ export class InventoryPage {
     const priceTexts = await this.inventory
       .locator('[data-test="inventory-item-price"]')
       .allTextContents();
-    return priceTexts.map((text) => parseFloat(text.replace('$', '')));
+    return priceTexts.map((text) => parseFloat(text.replace("$", "")));
   }
 
   async getItemImageSrcs(): Promise<string[]> {
     return this.inventory
-      .locator('img.inventory_item_img')
+      .locator("img.inventory_item_img")
       .evaluateAll((imgs) =>
-        (imgs as HTMLImageElement[]).map((img) => img.src)
+        (imgs as HTMLImageElement[]).map((img) => img.src),
       );
   }
 }
