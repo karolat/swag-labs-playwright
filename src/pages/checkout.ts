@@ -1,5 +1,5 @@
-import { expect, Locator, Page } from '@playwright/test';
-import { parseCurrencyFromLabel } from '@/utils/money';
+import { expect, Locator, Page } from "@playwright/test";
+import { parseCurrencyFromLabel } from "@/utils/money";
 
 export type CheckoutCustomer = {
   firstName: string;
@@ -28,7 +28,7 @@ export class CheckoutInfoPage {
 
   async expectLoaded(): Promise<void> {
     await expect(this.page).toHaveURL(/\/checkout-step-one\.html$/);
-    await expect(this.title).toHaveText('Checkout: Your Information');
+    await expect(this.title).toHaveText("Checkout: Your Information");
     await expect(this.firstNameInput).toBeVisible();
   }
 
@@ -82,26 +82,26 @@ export class CheckoutOverviewPage {
 
   async expectLoaded(): Promise<void> {
     await expect(this.page).toHaveURL(/\/checkout-step-two\.html$/);
-    await expect(this.title).toHaveText('Checkout: Overview');
+    await expect(this.title).toHaveText("Checkout: Overview");
     await expect(this.finishButton).toBeVisible();
   }
 
   async getItemTotal(): Promise<number> {
     const subtotalText = await this.subtotalLabel.textContent();
     if (!subtotalText) {
-      throw new Error('Subtotal label is empty');
+      throw new Error("Subtotal label is empty");
     }
 
-    return parseCurrencyFromLabel(subtotalText, 'subtotal');
+    return parseCurrencyFromLabel(subtotalText, "subtotal");
   }
 
   async getTotalWithTax(): Promise<number> {
     const totalText = await this.totalLabel.textContent();
     if (!totalText) {
-      throw new Error('Total label is empty');
+      throw new Error("Total label is empty");
     }
 
-    return parseCurrencyFromLabel(totalText, 'total');
+    return parseCurrencyFromLabel(totalText, "total");
   }
 
   async finish(): Promise<CheckoutCompletePage> {
@@ -127,13 +127,13 @@ export class CheckoutCompletePage {
 
   async expectLoaded(): Promise<void> {
     await expect(this.page).toHaveURL(/\/checkout-complete\.html$/);
-    await expect(this.title).toHaveText('Checkout: Complete!');
+    await expect(this.title).toHaveText("Checkout: Complete!");
     await expect(this.successHeader).toBeVisible();
   }
 
   async expectSuccess(): Promise<void> {
     await this.expectLoaded();
-    await expect(this.successHeader).toHaveText('Thank you for your order!');
+    await expect(this.successHeader).toHaveText("Thank you for your order!");
     await expect(this.successMessage).toBeVisible();
   }
 }

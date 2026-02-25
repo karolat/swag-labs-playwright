@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { expect, Locator, Page } from "@playwright/test";
 
 export type LoginCredentials = {
   username: string;
@@ -17,27 +17,32 @@ export class LoginPage {
     this.usernameInput = this.page.locator('[data-test="username"]');
     this.passwordInput = this.page.locator('[data-test="password"]');
     this.loginButton = this.page.locator('[data-test="login-button"]');
-    this.errorMessage = this.page.locator('h3[data-test="error"]')
+    this.errorMessage = this.page.locator('h3[data-test="error"]');
   }
 
-  async goto() {
-    await this.page.goto('/');
+  async goto(): Promise<void> {
+    await this.page.goto("/");
+    await this.expectLoaded();
   }
 
-  async login(credentials: LoginCredentials) {
+  async expectLoaded(): Promise<void> {
+    await expect(this.loginButton).toBeVisible();
+  }
+
+  async login(credentials: LoginCredentials): Promise<void> {
     await this.usernameInput.fill(credentials.username);
     await this.passwordInput.fill(credentials.password);
     await this.loginButton.click();
   }
 
-  async expectError(message?: string) {
+  async expectError(message?: string): Promise<void> {
     await expect(this.errorMessage).toBeVisible();
     if (message) {
       await expect(this.errorMessage).toHaveText(message);
     }
   }
 
-  async expectNoError() {
+  async expectNoError(): Promise<void> {
     await expect(this.errorMessage).not.toBeVisible();
   }
 }
