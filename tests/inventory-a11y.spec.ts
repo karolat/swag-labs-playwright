@@ -1,26 +1,26 @@
-import { test } from '@/fixtures';
-import { expect } from '@playwright/test';
-import { InventoryPage } from '@/pages';
-import { expectNoViolations } from '@/utils/a11y';
+import { test } from "@/fixtures";
+import { expect } from "@playwright/test";
+import { InventoryPage } from "@/pages";
+import { expectNoViolations } from "@/utils/a11y";
 
-test.describe('Inventory Page Accessibility @a11y', () => {
+test.describe("Inventory Page Accessibility @a11y", () => {
   // WCAG Compliance Tests
-  test.describe('WCAG Compliance', () => {
-    test('full page should have no accessibility violations', async ({
+  test.describe("WCAG Compliance", () => {
+    test("full page should have no accessibility violations", async ({
       page,
     }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
 
       await expectNoViolations(page, {
-        knownViolations: [{ id: 'select-name', selector: 'select' }],
+        knownViolations: [{ id: "select-name", selector: "select" }],
       });
     });
   });
 
   // Focus Management Tests
-  test.describe('Focus Management', () => {
-    test('focused elements should have visible focus indicators', async ({
+  test.describe("Focus Management", () => {
+    test("focused elements should have visible focus indicators", async ({
       page,
     }) => {
       const inventoryPage = new InventoryPage(page);
@@ -50,21 +50,21 @@ test.describe('Inventory Page Accessibility @a11y', () => {
 
       // Element should have some form of focus indicator
       const hasFocusIndicator =
-        outlineStyle.outline !== 'none' ||
-        outlineStyle.outlineWidth !== '0px' ||
-        outlineStyle.boxShadow !== 'none';
+        outlineStyle.outline !== "none" ||
+        outlineStyle.outlineWidth !== "0px" ||
+        outlineStyle.boxShadow !== "none";
 
       expect(hasFocusIndicator).toBe(true);
     });
   });
 
   // Image Accessibility Tests
-  test.describe('Image Accessibility', () => {
-    test('product images should have alt text', async ({ page }) => {
+  test.describe("Image Accessibility", () => {
+    test("product images should have alt text", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
 
-      const productImages = page.locator('.inventory_item img');
+      const productImages = page.locator(".inventory_item img");
 
       // Wait for images to be rendered before counting
       await expect(productImages.first()).toBeVisible();
@@ -75,7 +75,7 @@ test.describe('Inventory Page Accessibility @a11y', () => {
 
       for (let i = 0; i < imageCount; i++) {
         const image = productImages.nth(i);
-        const altText = await image.getAttribute('alt');
+        const altText = await image.getAttribute("alt");
 
         // Alt text should exist and not be empty
         expect(altText).toBeTruthy();

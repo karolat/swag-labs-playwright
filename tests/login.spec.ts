@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import { USER_CREDENTIALS } from "@/test-data/users"
-import { LoginPage } from "@/pages"
+import { USER_CREDENTIALS } from "@/test-data/users";
+import { LoginPage } from "@/pages";
 
 const EXPECTED_LOGIN_SUCCESS: Record<keyof typeof USER_CREDENTIALS, boolean> = {
   standard_user: true,
@@ -12,11 +12,14 @@ const EXPECTED_LOGIN_SUCCESS: Record<keyof typeof USER_CREDENTIALS, boolean> = {
   visual_user: true,
 };
 
-test.describe('Login', () => {
+test.describe("Login", () => {
   for (const [userType, credentials] of Object.entries(USER_CREDENTIALS)) {
-    const shouldSucceed = EXPECTED_LOGIN_SUCCESS[userType as keyof typeof USER_CREDENTIALS];
+    const shouldSucceed =
+      EXPECTED_LOGIN_SUCCESS[userType as keyof typeof USER_CREDENTIALS];
 
-    test(`should ${shouldSucceed ? '' : 'not'} be able to login with ${userType}`, async ({ page }) => {
+    test(`should ${shouldSucceed ? "" : "not"} be able to login with ${userType}`, async ({
+      page,
+    }) => {
       const loginPage = new LoginPage(page);
       await loginPage.goto();
       await loginPage.login(credentials);
