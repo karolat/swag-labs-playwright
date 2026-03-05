@@ -1,5 +1,5 @@
-import { expect, Page, Locator } from '@playwright/test';
-import { CheckoutInfoPage } from './checkout';
+import { expect, Page, Locator } from "@playwright/test";
+import { CheckoutInfoPage } from "./checkout";
 
 export class CartPage {
   readonly page: Page;
@@ -15,22 +15,28 @@ export class CartPage {
     this.cartItems = page.locator('[data-test="inventory-item"]');
     this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
     this.checkoutButton = page.locator('[data-test="checkout"]');
-    this.continueShoppingButton = page.locator('[data-test="continue-shopping"]');
+    this.continueShoppingButton = page.locator(
+      '[data-test="continue-shopping"]',
+    );
   }
 
   getItemByName(itemName: string): Locator {
     return this.cartItems.filter({
-      has: this.page.locator('[data-test="inventory-item-name"]', { hasText: itemName }),
+      has: this.page.locator('[data-test="inventory-item-name"]', {
+        hasText: itemName,
+      }),
     });
   }
 
   async removeItem(itemName: string): Promise<void> {
-    await this.getItemByName(itemName).getByRole('button', { name: 'Remove' }).click();
+    await this.getItemByName(itemName)
+      .getByRole("button", { name: "Remove" })
+      .click();
   }
 
   async expectLoaded(): Promise<void> {
     await expect(this.page).toHaveURL(/\/cart\.html$/);
-    await expect(this.title).toHaveText('Your Cart');
+    await expect(this.title).toHaveText("Your Cart");
     await expect(this.checkoutButton).toBeVisible();
   }
 

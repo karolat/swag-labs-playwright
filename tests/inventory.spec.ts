@@ -1,31 +1,31 @@
-import { InventoryPage } from '@/pages';
-import { expect } from '@playwright/test';
-import { test } from '@/fixtures';
+import { InventoryPage } from "@/pages";
+import { expect } from "@playwright/test";
+import { test } from "@/fixtures";
 
-test.describe('Inventory', () => {
-  test('the logo text should be visible', async ({ page }) => {
+test.describe("Inventory", () => {
+  test("the logo text should be visible", async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.goto();
 
     const logo = inventoryPage.mainHeader.logo;
 
-    expect(await logo.textContent()).toBe('Swag Labs');
+    expect(await logo.textContent()).toBe("Swag Labs");
   });
 
-  test.describe('Inventory Menu', () => {
-    test('the menu items should be correctly displayed', async ({ page }) => {
+  test.describe("Inventory Menu", () => {
+    test("the menu items should be correctly displayed", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
 
       await expect(inventoryPage.menuItems).toHaveText([
-        'All Items',
-        'About',
-        'Logout',
-        'Reset App State',
+        "All Items",
+        "About",
+        "Logout",
+        "Reset App State",
       ]);
     });
 
-    test('should be able to open and close the menu', async ({ page }) => {
+    test("should be able to open and close the menu", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       await inventoryPage.goto();
       const mainHeader = inventoryPage.mainHeader;
